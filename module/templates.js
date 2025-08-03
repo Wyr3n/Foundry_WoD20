@@ -492,8 +492,16 @@ export const registerHandlebarsHelpers = function () {
 						mark = "/";
 					}
 
-					mark = actor.system.listdata.health[value].status;
+					const healthRow = actor?.system?.listdata?.health?.[value];
+					if (healthRow && "status" in healthRow) {
+						mark = healthRow.status;
+					} else {
+						console.warn(`Missing health status for actor ${actor.name} at index ${value}`);
+						mark = "x"; // or use "x" if you want something visible
+					}
 				}
+
+
 				else {
 					if (stat.temporary > value) {
 						mark = "x";
