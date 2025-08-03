@@ -34,6 +34,14 @@ export class WoDItem extends Item {
 
         try {
             let data = foundry.utils.duplicate(this);
+			// Fix for Art Powers (Changeling) not being rollable by default		
+		if (
+		  this.type === "Power" &&
+		  this.system?.type === "wod.types.artpower"
+		) {
+		  data.system.isrollable = true;
+		  data.system.difficulty ??= "";
+		}
 
             const imgUrl = _getImage(data);
 
